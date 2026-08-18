@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { postAdd } from "../../api/todoApi";
+import ResultModal from "../../components/common/ResultModal";
 
 const initState = {
     title: "",
@@ -10,6 +11,7 @@ const initState = {
 
 const AddComponent = () => {
     const [todo, setTodo] = useState(initState);
+    const [result, setResult] = useState(null);
 
     const handleChangeTodo = (e) => {
         const { name, value } = e.target;
@@ -27,15 +29,48 @@ const AddComponent = () => {
     const handleClickAdd = () => {
         postAdd(todo)
         .then(result => {
-            console.log(result)
-            setTodo({...initState})
-        }).catch(e => {
+            console.log(result);
+
+            setResult(result.no);
+
+            setTodo({...initState});
+        })
+        .catch(e => {
             console.error(e)
         });
-    }
+    };
+
+    const closeModal = () => {
+        setResult(null);
+    };
+
+    const makeInput = (title, name, type, value) => (
+        <div className="flex justify-center">
+            <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                <div className="w-1/5 p-6 text-right font-bold">
+                  {title}
+                </div>
+
+                <input className="w-4/5 rounded-r border border-solid border-neutral-500 p-6 shadow-md"
+                name={name} type={type} value={value} onChange={handleChangeTodo} />
+            </div>
+        </div>
+    );
 
 
     return (
+        <div className="m-2 mt-10 border-2 border-sky-200 p-4">
+            {result !== null && (
+                <ResultModal title="Add Result"
+                content={`New ${result} Added`}
+                callbackFn={closeModal}/>
+            )}
+
+            {makeInput("내용", "title", "text", todo.title)}
+            {makeInput("작성자", "writer", "text", todo.writer)}
+            {makeInput("마감일", "dueDate", "date", todo.dueDate)}
+
+            
         <div className="m-2 mt-10 border-2 border-sky-200 p-4">
 
             <div className="flex justify-center">
@@ -78,6 +113,7 @@ const AddComponent = () => {
                     ADD
                 </button>
             </div>
+        </div>
         </div>
     );
 };
