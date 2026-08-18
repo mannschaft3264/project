@@ -1,4 +1,5 @@
 import { useParams, createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
+import ReadComponent from "./ReadComponent";
 
 const ReadPage = () => {
     const { no } = useParams();
@@ -28,9 +29,11 @@ const ReadPage = () => {
     };
 
     return (
-        <div className="text-3xl font-extrabold">
+        <div className="font-extrabold w-full bg-white mt-6">
+            <div className="text-2xl">
             Todo Read Page Component {no}
-
+            </div>
+            <ReadComponent no={no}></ReadComponent>
             <div>
                 <button type="button" 
                 className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 text-2xl mr-3"
