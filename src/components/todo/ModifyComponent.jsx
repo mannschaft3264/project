@@ -25,12 +25,14 @@ const ModifyComponent = ({ no }) => {
     const handleClickModify = () => {
         putOne(todo).then((data) => {
             console.log("modify result:", data);
+            setResult('Modified');
         });
     };
 
     const handleClickDelete = () => {
         deleteOne(no).then((data) => {
             console.log("delete result:", data);
+            setResult("Deleted");
         });
     };
 
@@ -65,7 +67,7 @@ const ModifyComponent = ({ no }) => {
             {result != null && (
                 <ResultModal title="처리 결과" content={result} callbackFn={closeModal}/>
             )}
-            
+
             <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                 <div className="w-1/5 p-6 text-right font-bold">
                   {title}
