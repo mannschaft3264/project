@@ -13,6 +13,8 @@ const initState = {
 
 const ModifyComponent = ({ no }) => {
     const [todo, setTodo] = useState(initState);
+    const [result, setResult] = useState(null);
+    const {moveToList, moveToRead} = useCustomMove();
 
     useEffect(() => {
         getOne(no).then((data) => {
@@ -50,8 +52,20 @@ const ModifyComponent = ({ no }) => {
         }));
     };
 
+    const closeModal = () => {
+        if (result === "Deleted") {
+            moveToList();
+        } else {
+            moveToRead(no);
+        }
+    };
+
     const makeReadOnly = (title, value) => (
         <div className="flex justify-center">
+            {result != null && (
+                <ResultModal title="처리 결과" content={result} callbackFn={closeModal}/>
+            )}
+            
             <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                 <div className="w-1/5 p-6 text-right font-bold">
                   {title}
